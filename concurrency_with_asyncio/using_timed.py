@@ -1,6 +1,6 @@
 import asyncio
 
-from .util import async_timed, delay
+from .utils.delay_functions import async_timed, delay
 
 
 @async_timed()

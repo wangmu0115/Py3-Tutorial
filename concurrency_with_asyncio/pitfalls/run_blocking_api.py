@@ -2,7 +2,7 @@ import asyncio
 
 import httpx
 
-from concurrency_with_asyncio.util import async_timed
+from concurrency_with_asyncio.utils.delay_functions import async_timed
 
 
 @async_timed()

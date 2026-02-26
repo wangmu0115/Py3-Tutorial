@@ -1,30 +1,22 @@
 import socket
+from socket import AF_INET, SO_REUSEADDR, SOCK_STREAM, SOL_SOCKET
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-server_address = ("127.0.0.1", 8000)
-server_socket.bind(server_address)
-server_socket.listen()
+def new_server_socket() -> socket.socket:
+    server_socket = socket.socket(AF_INET, SOCK_STREAM)
+    server_socket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+    server_socket.bind(("127.0.0.1", 8000))
+    server_socket.listen()  # Enable server to accept connections
 
-connections = []
+    return server_socket
 
-try:
-    while True:
-        conn, client_address = server_socket.accept()  # Wait for a connection and assign the client to a PO box.
-        print(f"I get a connection from {client_address}")
-        connections.append(conn)
 
-        for connection in connections:
-            buffer = b""
-            while buffer[-2:] != b"\r\n":
-                data = connection.recv(4)
-                if not data:
-                    break
-                else:
-                    print(f"I get data: {data}")
-                    buffer += data
-            print(f"All the data: {buffer}")
-            connection.sendall(b"[ECHO]: " + buffer)
-finally:
-    server_socket.close()
+def main():
+    server_socket = new_server_socket()
+    conn, client_address = server_socket.accept()  # Socket is blocked, the method will block.
+    print(f"Get a connection from {client_address}")
+    conn.sendall(b"Hello World\n")
+
+
+if __name__ == "__main__":
+    main()

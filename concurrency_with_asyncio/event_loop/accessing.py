@@ -1,6 +1,6 @@
 import asyncio
 
-from concurrency_with_asyncio.util import delay
+from concurrency_with_asyncio.utils.delay_functions import delay
 
 
 def call_later():

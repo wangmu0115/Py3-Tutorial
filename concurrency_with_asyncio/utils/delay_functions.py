@@ -22,8 +22,11 @@ def async_timed():
 
 
 @async_timed()
-async def delay(seconds: float) -> float:
-    print(f"sleeping for {seconds} second(s).")
-    await asyncio.sleep(seconds)
-    print(f"finished sleeping for {seconds} second(s).")
+async def delay(seconds: float, debug: bool = True) -> float:
+    if debug:
+        print(f"sleeping for {seconds} second(s).")
+        await asyncio.sleep(seconds)
+        print(f"finished sleeping for {seconds} second(s).")
+    else:
+        await asyncio.sleep(seconds)
     return seconds

@@ -1,21 +1,20 @@
 import asyncio
 
-from .utils.delay_functions import delay
-
-
-async def incr(number: int) -> int:
-    await delay(1.0)
-    return number + 1
+from utils import delay
 
 
 async def hello_world() -> str:
-    await delay(2.0)
+    await delay(3.0)
     return "Hello World"
 
 
+async def incr(n: int) -> int:
+    return n + 1
+
+
 async def main():
-    num = await incr(42)
     msg = await hello_world()
+    num = await incr(42)
     print(num)
     print(msg)
 
