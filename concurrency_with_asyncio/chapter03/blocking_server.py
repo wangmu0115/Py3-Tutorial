@@ -13,9 +13,22 @@ def new_server_socket() -> socket.socket:
 
 def main():
     server_socket = new_server_socket()
-    conn, client_address = server_socket.accept()  # Socket is blocked, the method will block.
-    print(f"Get a connection from {client_address}")
-    conn.sendall(b"Hello World\n")
+    try:
+        conn, client_address = server_socket.accept()  # Socket is blocked, the method will block.
+        print(f"Get a connection from {client_address}")
+
+        buffer = b""  # Received data
+        while buffer[-2:] != b"\r\n":  # [Enter]
+            data = conn.recv(8)
+            if data:
+                print(f"Get data by loop: {data}")
+                buffer += data
+            else:
+                break
+        print(f"All data is {buffer}")
+        conn.sendall(b"[ECHO] -> " + buffer)
+    finally:
+        server_socket.close()
 
 
 if __name__ == "__main__":
