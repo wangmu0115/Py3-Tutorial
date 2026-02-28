@@ -13,7 +13,7 @@ def async_timed():
                 return await func(*args, **kwargs)
             finally:
                 elapsed = time.perf_counter() - start
-                print(f"<<< finished {func} in {elapsed: .4f} second(s)")
+                print(f"<<< finished {func} with args {args} {kwargs} in {elapsed: .4f} second(s)")
 
         return wrapped
 
