@@ -1,0 +1,25 @@
+import sys
+
+
+class LookingGlass:
+    def __enter__(self):
+        self.original_write = sys.stdout.write
+        sys.stdout.write = self.reverse_write
+        return "JABBERWOCKY"
+
+    def reverse_write(self, text):
+        self.original_write(text[::-1])
+
+    def __exit__(self, exc_type, exc, tb):
+        sys.stdout.write = self.original_write
+        if exc_type is ZeroDivisionError:
+            print("Please DO NOT divide by zero!")
+            return True
+
+
+if __name__ == "__main__":
+    with LookingGlass() as text:
+        print(text)  # YKCOWREBBAJ
+        print("Hello World")  # dlroW olleH
+        print(1 / 0)
+    print("Hello World")  # Hello World
